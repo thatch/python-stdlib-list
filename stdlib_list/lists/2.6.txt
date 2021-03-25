@@ -374,7 +374,6 @@ telnetlib
 tempfile
 termios
 test
-test.test_support
 textwrap
 thread
 threading
