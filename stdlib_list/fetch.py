@@ -9,6 +9,10 @@ base_dir = os.path.dirname(os.path.realpath(__file__))
 
 list_dir = os.path.join(base_dir, "lists")
 
+EXCLUDE_RE = re.compile(
+    r'(ctypes\.test|distutils\.tests|test\.|json\.re|lib\.libpython)'
+)
+
 
 class DummyConfig(object):
     def __init__(self, intersphinx_mapping=None, intersphinx_cache_limit=5, intersphinx_timeout=None):
@@ -65,9 +69,8 @@ def fetch_list(version=None):
         url = "http://docs.python.org/{}/objects.inv".format(version)
 
         modules = sorted(
-            list(
-                fetch_inventory(DummyApp(), "", url).get("py:module").keys()
-            )
+            x for x in fetch_inventory(DummyApp(), "", url).get("py:module").keys()
+            if not EXCLUDE_RE.match(x)
         )
 
         with open(os.path.join(list_dir, "{}.txt".format(version)), "w") as f:
