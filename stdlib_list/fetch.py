@@ -3,7 +3,11 @@ import warnings
 
 from sphinx.ext.intersphinx import fetch_inventory
 
-from . import base_dir, get_canonical_version, short_versions, list_dir
+from . import get_canonical_version, short_versions
+
+base_dir = os.path.dirname(os.path.realpath(__file__))
+
+list_dir = os.path.join(base_dir, "lists")
 
 
 class DummyConfig(object):
